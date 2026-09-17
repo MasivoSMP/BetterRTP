@@ -7,7 +7,7 @@
     <groupId>me.SuperRonanCraft</groupId>
     <artifactId>BetterRTP</artifactId>
     <packaging>jar</packaging>
-    <version>3.6.13</version>
+    <version>3.6.13-masivo.1</version>
 
     <!-- Upload patches to https://repo.ronanplugins.com/#/ -->
 
@@ -46,11 +46,31 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals><goal>run</goal></goals>
+                        <configuration>
+                            <target>
+                                <java classname="me.SuperRonanCraft.BetterRTP.versions.ChunkSchedulingCheck"
+                                      fork="true" failonerror="true">
+                                    <classpath refid="maven.test.classpath"/>
+                                    <jvmarg value="-ea"/>
+                                </java>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
                 <version>3.1.4</version>
             </plugin>
             <plugin>
-                <!-- Shade PaperLib into project -->
+                <!-- Shade runtime libraries into project -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.6.0</version>
@@ -58,10 +78,6 @@
                     <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml
                     </dependencyReducedPomLocation>
                     <relocations>
-                        <relocation>
-                            <pattern>io.papermc.lib</pattern>
-                            <shadedPattern>me.SuperRonanCraft.BetterRTP.lib.paperlib</shadedPattern>
-                        </relocation>
                         <relocation>
                             <pattern>com.tcoded.folialib</pattern>
                             <shadedPattern>me.SuperRonanCraft.BetterRTP.lib.folialib</shadedPattern>
@@ -90,6 +106,10 @@
     </build>
 
     <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
         <!-- CAN BE UNCOMMENTED IF YOU HAVE ACCESS TO THE REPO -->
         <!--<repository>
             <id>ronanplugins-private</id>
@@ -171,26 +191,12 @@
             <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Spigot Stuff -->
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
         <!-- Vault -->
         <dependency>
             <groupId>net.milkbowl.vault</groupId>
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
             <scope>provided</scope>
-        </dependency>
-        <!-- Paper Library for Async Chunk/Teleport -->
-        <dependency>
-            <groupId>io.papermc</groupId>
-            <artifactId>paperlib</artifactId>
-            <version>1.0.8</version>
-            <scope>compile</scope>
         </dependency>
         <!-- WorldGuard (https://dev.bukkit.org/projects/worldguard) -->
         <dependency> <!-- Saber Factions screws up if updated -->

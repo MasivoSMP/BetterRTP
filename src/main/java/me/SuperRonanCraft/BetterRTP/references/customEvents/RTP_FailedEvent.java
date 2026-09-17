@@ -14,8 +14,12 @@ import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
     int attempts;
 
     public RTP_FailedEvent(RTPPlayer rtpPlayer) {
-        this.p = rtpPlayer.getPlayer();
-        this.world = rtpPlayer.getWorldPlayer();
-        this.attempts = rtpPlayer.getAttempts();
+        this(rtpPlayer.getPlayer(), rtpPlayer.getWorldPlayer(), rtpPlayer.getAttempts());
+    }
+
+    public RTP_FailedEvent(Player player, RTPWorld world, int attempts) {
+        this.p = player;
+        this.world = world;
+        this.attempts = attempts;
     }
 }
